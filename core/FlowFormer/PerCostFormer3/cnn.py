@@ -17,28 +17,28 @@ class ResidualBlock(nn.Module):
         if norm_fn == 'group':
             self.norm1 = nn.GroupNorm(num_groups=num_groups, num_channels=planes)
             self.norm2 = nn.GroupNorm(num_groups=num_groups, num_channels=planes)
-            if not stride == 1:
+            if not stride == 1 or in_planes != planes:
                 self.norm3 = nn.GroupNorm(num_groups=num_groups, num_channels=planes)
         
         elif norm_fn == 'batch':
             self.norm1 = nn.BatchNorm2d(planes)
             self.norm2 = nn.BatchNorm2d(planes)
-            if not stride == 1:
+            if not stride == 1 or in_planes != planes:
                 self.norm3 = nn.BatchNorm2d(planes)
         
         elif norm_fn == 'instance':
             self.norm1 = nn.InstanceNorm2d(planes)
             self.norm2 = nn.InstanceNorm2d(planes)
-            if not stride == 1:
+            if not stride == 1 or in_planes != planes:
                 self.norm3 = nn.InstanceNorm2d(planes)
 
         elif norm_fn == 'none':
             self.norm1 = nn.Sequential()
             self.norm2 = nn.Sequential()
-            if not stride == 1:
+            if not stride == 1 or in_planes != planes:
                 self.norm3 = nn.Sequential()
 
-        if stride == 1:
+        if stride == 1 and in_planes == planes:
             self.downsample = None
         
         else:    
