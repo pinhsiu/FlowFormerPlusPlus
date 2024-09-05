@@ -11,8 +11,8 @@ import random
 from glob import glob
 import os.path as osp
 
-from utils import frame_utils
-from utils.augmentor import ImageAugmentor
+from .utils import frame_utils
+from .utils.augmentor import ImageAugmentor
 
 from loguru import logger as loguru_logger
 
@@ -104,7 +104,7 @@ class FlowDataset(data.Dataset):
         
 
 class YoutubeVOS(FlowDataset):
-    def __init__(self, aug_params=None, root='/mnt/lustre/share_data/shixiaoyu/youtubevos/'):
+    def __init__(self, aug_params=None, root='/mnt/c/Users/pinhsiu/project/datasets/youtubevos/'):
         super(YoutubeVOS, self).__init__(aug_params)
 
         splits = ["test_all_frames/JPEGImages", "train_all_frames/JPEGImages", "valid_all_frames/JPEGImages"]
@@ -129,7 +129,7 @@ def fetch_dataloader(args, TRAIN_DS='C+T+K+S+H'):
         train_dataset = YoutubeVOS(aug_params)
     
     train_loader = data.DataLoader(train_dataset, batch_size=args.batch_size, 
-        pin_memory=False, shuffle=True, num_workers=24, drop_last=True)
+        pin_memory=False, shuffle=True, num_workers=0, drop_last=True)
 
     print('Training with %d image pairs' % len(train_dataset))
     return train_loader
