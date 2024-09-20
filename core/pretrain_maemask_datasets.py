@@ -104,7 +104,7 @@ class FlowDataset(data.Dataset):
         
 
 class YoutubeVOS(FlowDataset):
-    def __init__(self, aug_params=None, root='/mnt/c/Users/pinhsiu/project/datasets/youtubevos/'):
+    def __init__(self, aug_params=None, root='datasets/youtubevos/'):
         super(YoutubeVOS, self).__init__(aug_params)
 
         splits = ["test_all_frames/JPEGImages", "train_all_frames/JPEGImages", "valid_all_frames/JPEGImages"]
