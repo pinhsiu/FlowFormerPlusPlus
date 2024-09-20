@@ -405,8 +405,6 @@ class MemoryEncoder(nn.Module):
         # GCL
         feat_s = self.gcl(feat_s)
         feat_t = self.gcl(feat_t)
-        feat_s_16 = self.gcl(feat_s_16)
-        feat_t_16 = self.gcl(feat_t_16)
 
         cost_volume = self.corr(feat_s, feat_t)
         if self.cfg.r_16 > 0:
