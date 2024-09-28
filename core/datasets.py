@@ -9,15 +9,15 @@ import random
 from glob import glob
 import os.path as osp
 
-from .utils import frame_utils
-from .utils.augmentor import FlowAugmentor, SparseFlowAugmentor
+from core.utils import frame_utils
+from core.utils.augmentor import FlowAugmentor, SparseFlowAugmentor
 #from utils import flow_transforms 
 
 from torchvision.utils import save_image
 
-from .utils import flow_viz
+from core.utils import flow_viz
 import cv2
-from .utils.utils import coords_grid, bilinear_sampler
+from core.utils.utils import coords_grid, bilinear_sampler
 
 class FlowDataset(data.Dataset):
     def __init__(self, aug_params=None, sparse=False):
@@ -251,7 +251,7 @@ def fetch_dataloader(args, TRAIN_DS='C+T+K+S+H'):
         train_dataset = KITTI(aug_params, split='training')
 
     train_loader = data.DataLoader(train_dataset, batch_size=args.batch_size, 
-        pin_memory=False, shuffle=True, num_workers=8, drop_last=True)
+        pin_memory=False, shuffle=True, num_workers=0, drop_last=True)
 
     print('Training with %d image pairs' % len(train_dataset))
     return train_loader
