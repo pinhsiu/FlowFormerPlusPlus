@@ -19,6 +19,8 @@ _CN.transformer = 'percostformer3'
 _CN.restore_ckpt = "logs/PATH-TO-FINAL-FILE/final"
 
 _CN.percostformer3 = CN()
+_CN.percostformer3.sam_checkpoint = None
+_CN.percostformer3.freeze_bn = False
 _CN.percostformer3.pe = 'linear'
 _CN.percostformer3.dropout = 0.0
 _CN.percostformer3.droppath = 0.0
@@ -51,6 +53,9 @@ _CN.percostformer3.detach_local = False
 _CN.percostformer3.no_sc = False
 _CN.percostformer3.r_16 =-1
 _CN.percostformer3.quater_refine = False
+_CN.percostformer3.ft_ver = False
+_CN.percostformer3.sam_scale = 'H'
+_CN.percostformer3.weighted_add = False
 # pretrain config
 _CN.percostformer3.pretrain_mode = False
 _CN.percostformer3.pic_size = [368, 496, 368, 496]
