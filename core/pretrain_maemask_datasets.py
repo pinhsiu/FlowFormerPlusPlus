@@ -11,8 +11,8 @@ import random
 from glob import glob
 import os.path as osp
 
-from utils import frame_utils
-from utils.augmentor import ImageAugmentor
+from .utils import frame_utils
+from .utils.augmentor import ImageAugmentor
 
 from loguru import logger as loguru_logger
 
@@ -104,7 +104,7 @@ class FlowDataset(data.Dataset):
         
 
 class YoutubeVOS(FlowDataset):
-    def __init__(self, aug_params=None, root='/mnt/lustre/share_data/shixiaoyu/youtubevos/'):
+    def __init__(self, aug_params=None, root='datasets/youtubevos/'):
         super(YoutubeVOS, self).__init__(aug_params)
 
         splits = ["test_all_frames/JPEGImages", "train_all_frames/JPEGImages", "valid_all_frames/JPEGImages"]
