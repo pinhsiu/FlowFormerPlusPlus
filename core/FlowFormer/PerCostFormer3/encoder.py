@@ -14,6 +14,7 @@ from ..encoders import twins_svt_large, convnext_large
 from typing import Optional, Tuple
 from .twins import Size_, PosConv
 from .cnn import TwinsSelfAttentionLayer, TwinsCrossAttentionLayer, BasicEncoder
+from .modules import GCL
 
 from timm.models.layers import Mlp, DropPath, activations, to_2tuple, trunc_normal_
 
@@ -353,6 +354,9 @@ class MemoryEncoder(nn.Module):
 
         self.cost_perceiver_encoder = CostPerceiverEncoder(cfg)
 
+        #GCL
+        self.gcl = GCL(embed_dim=256, depth=1)
+
         if self.cfg.pretrain_mode and self.cfg.crop_cost_volume:
             print("[H_offset is {}, W_offset is {}, and crop_cost_volume to get inner cost volume]".format(self.cfg.H_offset, self.cfg.W_offset))
 
@@ -398,6 +402,10 @@ class MemoryEncoder(nn.Module):
             feat_s = self.channel_convertor(feat_s)
             feat_t = self.channel_convertor(feat_t)
 
+        # GCL
+        feat_s = self.gcl(feat_s)
+        feat_t = self.gcl(feat_t)
+
         cost_volume = self.corr(feat_s, feat_t)
         if self.cfg.r_16 > 0:
             cost_volume_16 = self.corr_16(feat_s_16, feat_t_16)
@@ -415,6 +423,11 @@ class MemoryEncoder(nn.Module):
 
         feat_s_inner, _ = self.feat_encoder(img1_inner)
         feat_t_inner, _ = self.feat_encoder(img2_inner)
+
+        # GCL
+        feat_t = self.gcl(feat_t)
+        feat_s_inner = self.gcl(feat_s_inner)
+        feat_t_inner = self.gcl(feat_t_inner)
 
         cost_volume = self.corr(feat_s_inner, feat_t)
         if self.cfg.crop_cost_volume:
